@@ -5,7 +5,7 @@ import { Button, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-const HomePage = () => {
+const HomePage = ({ history }) => {
   const [users, setUsers] = useState([]);
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
@@ -30,6 +30,12 @@ const HomePage = () => {
 
   useEffect(() => {
     listAllUsers();
+    const emailFromStorage = localStorage.getItem("email")
+      ? JSON.parse(localStorage.getItem("email"))
+      : null;
+    if (emailFromStorage === null) {
+      history.push("/login");
+    }
   }, []);
 
   const listAllUsers = () => {

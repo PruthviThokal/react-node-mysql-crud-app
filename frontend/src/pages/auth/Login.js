@@ -1,7 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+
 import "./login.css";
 
-const Login = () => {
+const Login = ({ history }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const loginUser = (e) => {
+    e.preventDefault();
+    if (email.length > 0 && password.length > 0) {
+      axios
+        .post(`http://localhost:8001/api/login`, {
+          email: email,
+          password: password,
+        })
+        .then((res) => {
+          const { data } = res;
+          localStorage.setItem("email", JSON.stringify(data[0].email));
+          history.push("/home");
+        })
+        .catch((err) => {
+          toast.error("invalid credentials");
+        });
+    } else {
+      toast.error("all fields are required");
+    }
+  };
+
   return (
     <>
       <div id="login">
@@ -23,6 +49,8 @@ const Login = () => {
                       type="email"
                       name="username"
                       id="username"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="form-control"
                     />
                   </div>
@@ -32,9 +60,11 @@ const Login = () => {
                     </label>
                     <br />
                     <input
-                      type="text"
+                      type="password"
                       name="password"
                       id="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       className="form-control"
                     />
                   </div>
@@ -44,6 +74,7 @@ const Login = () => {
                       name="submit"
                       className="btn btn-info btn-md"
                       value="submit"
+                      onClick={loginUser}
                     />
                   </div>
                 </form>

@@ -1,6 +1,11 @@
 import React from "react";
 
-const SideBar = () => {
+const SideBar = ({ history }) => {
+  const logout = () => {
+    alert("DO you want to logout ?");
+    localStorage.removeItem("email");
+    history.push("/");
+  };
   return (
     <>
       <div className="sidebar open">
@@ -14,27 +19,15 @@ const SideBar = () => {
             <input type="text" placeholder="Search..." />
             <span className="tooltip">Search</span>
           </li>
-          <li>
-            <a href="/">
-              <i className="bx bx-star"></i>
-              <span className="links_name">Favorite</span>
-            </a>
-            <span className="tooltip">Favorite</span>
-          </li>
-          <li>
-            <a href="/">
-              <i className="bx bx-time-five"></i>
-              <span className="links_name">Recent</span>
-            </a>
-            <span className="tooltip">Recent</span>
-          </li>
 
           <li>
-            <a href="/">
+            <a href="/#">
               <i className="bx bx-cog"></i>
-              <span className="links_name">Setting</span>
+              <span onClick={logout} className="links_name">
+                Logout
+              </span>
             </a>
-            <span className="tooltip">Setting</span>
+            <span className="tooltip">Logout</span>
           </li>
           <li className="profile">
             <div className="profile-details">
